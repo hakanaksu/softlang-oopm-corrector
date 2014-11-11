@@ -1,0 +1,17 @@
+<script>
+    $('#dashboard_title').html('Neuen Kurs anlegen');
+    $('#courses_index_link').on('click', function () {
+        var $targetPanel = $('#dashboards_panel');
+        loadSpinner($targetPanel, {type: 'panel'});
+        ajaxTab($targetPanel, '<%= courses_url %>', 'Fehler');
+    });
+</script>
+<ol class="breadcrumb">
+  <li>
+    <%= link_to 'javascript:void(0);',remote: true, id: 'courses_index_link' do %>
+        Kurse
+    <% end %>
+  </li>
+  <li class="active">Neuen Kurs anlegen</li>
+</ol>
+<%= render 'courses/partials/form', course: @course %>

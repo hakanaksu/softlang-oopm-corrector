@@ -1,0 +1,29 @@
+<%= form_tag course_student_assignment_url(course, student, assignment), method: :patch, remote: true, class: 'form-horizontal' do %>
+    <div class="form-group">
+      <%= label_tag :public_tests, 'PublicTests', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-2">
+        <span class="label label-<%= @public_test ? 'success' : 'danger' %>">
+          <%= @public_test ? 'Erfolgreich' : 'Nicht Erfolgreich' %>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag :extra_test, 'ExtraTests', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-2">
+        <span class="label label-<%= @extra_test ? 'success' : 'danger' %>">
+            <%= @extra_test ? 'Erfolgreich' : 'Nicht Erfolgreich' %>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag :achieved_points, 'Bewerten mit', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-2">
+        <%= number_field_tag :achieved_points, achieved_points, class: 'form-control', min: 0 %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <%= submit_tag 'Speichern', class: 'btn btn-primary pull-right', data: {disable_with: 'Speichert...'} %>
+      </div>
+    </div>
+<% end %>

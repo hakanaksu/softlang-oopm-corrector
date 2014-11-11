@@ -1,0 +1,48 @@
+<div class="dropdown">
+  <a href="#" class="<%= course_svn_status_label(course) %>" id="dropdownMenu1" data-toggle="dropdown">
+    <i id="course_<%= course.id %>_status_spinner"></i>
+                          <span id="course_<%= course.id %>_status_span">
+                            <%= course_svn_status_text(course) %>
+                          </span>
+    <span class="caret"></span>
+  </a>
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <% if course.svn_status == 'not_checked_out' %>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" href="javascript:void(0);" id="course_<%= course.id %>_checkout_svn">
+            Checkout SVN
+          </a>
+        </li>
+    <% elsif course.svn_status == 'checked_out' %>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" href="javascript:void(0);" id="course_<%= course.id %>_update_svn">
+            Update SVN
+          </a>
+        </li>
+    <% end %>
+  </ul>
+</div>
+<script>
+    $(function () {
+        $('#course_<%= course.id %>_checkout_svn').on('click', function () {
+            $('#course_<%= course.id %>_status_spinner').addClass('fa fa-spinner fa-spin');
+            $('#course_<%= course.id %>_status_span').html('Auschecken...');
+            $('#dropdownMenu1').addClass('disabled');
+            $.ajax({
+                url: '<%= course_svn_checkouts_url(course) %>',
+                type: 'PATCH'
+            });
+        });
+
+        $('#course_<%= course.id %>_update_svn').on('click', function () {
+            $('#course_<%= course.id %>_status_spinner').addClass('fa fa-spinner fa-spin');
+            $('#course_<%= course.id %>_status_span').html('Updating...');
+            $('#dropdownMenu1').addClass('disabled');
+            $.ajax({
+                url: '<%= course_svn_updates_url(course) %>',
+                type: 'PATCH'
+            })
+        });
+    })
+</script>

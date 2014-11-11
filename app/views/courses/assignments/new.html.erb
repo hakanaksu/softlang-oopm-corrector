@@ -1,0 +1,17 @@
+<script>
+    $('#dashboard_title').html('Aufgabe hinzufügen');
+    $('#courses_index_link').on('click', function () {
+        var $targetPanel = $('#dashboards_panel');
+        loadSpinner($targetPanel, {type: 'panel'});
+        ajaxTab($targetPanel, '<%= courses_url %>', 'Fehler');
+    });
+</script>
+<ol class="breadcrumb">
+  <li>
+    <%= link_to 'javascript:void(0);', remote: true, id: 'courses_index_link' do %>
+        Kurse
+    <% end %>
+  </li>
+  <li class="active">Aufgabe hinzufügen</li>
+</ol>
+<%= render partial: 'courses/assignments/partials/form', locals: {course: @course, assignment: @assignment} %>

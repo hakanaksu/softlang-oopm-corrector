@@ -1,0 +1,3 @@
+var $targetPanel = $('#dashboards_panel');
+loadSpinner($targetPanel, {type: 'panel'});
+ajaxTab($targetPanel, '<%= course_students_url(@course) %>', 'Fehler');

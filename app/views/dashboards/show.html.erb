@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title" id="dashboard_title"></h3>
+  </div>
+  <div class="panel-body" id="dashboards_panel">
+    <!-- AJAX -->
+  </div>
+</div>
+
+<script>
+    $(function () {
+        var $dashboardsPanel = $('#dashboards_panel');
+        loadSpinner($dashboardsPanel, {type: 'panel'});
+        ajaxTab($dashboardsPanel, '<%= courses_url %>', 'Fehler');
+    })
+</script>

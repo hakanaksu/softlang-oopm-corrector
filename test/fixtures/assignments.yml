@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  points: 1
+  course_id: 
+  order: 1
+  deadline: 2014-11-07
+
+two:
+  points: 1
+  course_id: 
+  order: 1
+  deadline: 2014-11-07

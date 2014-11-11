@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AutoCorrector</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= render 'layouts/partials/navbar' %>
+<div class="container">
+  <%= yield %>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- AJAX Loading -->
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<%= form_for course, remote: true, html: {class: 'form-horizontal', id: 'course_form'} do |f| %>
+    <div class="form-group">
+      <%= f.label :name, 'Kursname', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-8">
+        <%= f.text_field :name, class: 'form-control', placeholder: 'Bitte geben Sie einen Kursnamen ein...' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :svn_url, 'SVN Url', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-8">
+        <%= f.text_field :svn_url, class: 'form-control', placeholder: 'Bitte geben Sie eine SVN Url ein...' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :start_date, 'Kursstart', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.text_field :start_date, class: 'form-control datepicker', placeholder: 'Bitte wählen Sie ein Datum aus...' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :end_date, 'Kursende', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.text_field :end_date, class: 'form-control datepicker', placeholder: 'Bitte wählen Sie ein Datum aus...', data: {date_format: 'dd.mm.yyyy'} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :max_points, 'Maximal Punkte', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-2">
+        <%= f.number_field :max_points, class: 'form-control', min: 0 %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <%= f.submit 'Speichern', class: 'btn btn-primary pull-right', data: {disable_with: 'Speichert...'} %>
+      </div>
+    </div>
+<% end %>
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            language: 'de-DE'
+        });
+    })
+</script>
