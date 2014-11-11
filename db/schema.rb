@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109153052) do
+ActiveRecord::Schema.define(version: 20141111181411) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -57,6 +57,16 @@ ActiveRecord::Schema.define(version: 20141109153052) do
 
   add_index "student_to_assignments", ["assignment_id"], name: "index_student_to_assignments_on_assignment_id", using: :btree
   add_index "student_to_assignments", ["student_id"], name: "index_student_to_assignments_on_student_id", using: :btree
+
+  create_table "student_to_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "student_to_users", ["student_id"], name: "index_student_to_users_on_student_id", using: :btree
+  add_index "student_to_users", ["user_id"], name: "index_student_to_users_on_user_id", using: :btree
 
   create_table "students", force: true do |t|
     t.string   "username"

@@ -1,5 +1,6 @@
 class Student < ActiveRecord::Base
-  belongs_to :user
+  has_many :student_to_users
+  has_many :users, through: :student_to_users
   has_many :course_to_students
   has_many :courses, through: :course_to_students
   has_many :student_to_assignments
@@ -7,7 +8,7 @@ class Student < ActiveRecord::Base
 
   def self.create_from_course_svn_folders(course, tutor)
     course.svn_student_folders.each do |name|
-      Student.create(username: name, email: "#{name}@uni-koblenz.de", user: tutor, courses: [course], assignments: course.assignments) unless (course.students.pluck(:username).include? name)
+      Student.create(username: name, email: "#{name}@uni-koblenz.de", users: [tutor], courses: [course], assignments: course.assignments) unless (course.students.pluck(:username).include? name)
     end
   end
 
