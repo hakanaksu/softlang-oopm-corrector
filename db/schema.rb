@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20141109153052) do
   create_table "courses", force: true do |t|
     t.string   "name"
     t.string   "svn_url"
-    t.string   "svn_status"
+    t.string   "svn_status", default: "not_checked_out"
     t.integer  "max_points", default: 0
     t.date     "start_date"
     t.date     "end_date"

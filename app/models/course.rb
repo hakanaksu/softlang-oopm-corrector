@@ -28,6 +28,10 @@ class Course < ActiveRecord::Base
     %x{cd #{Rails.root}/repos/#{self.id} && svn info | grep Revision}.chomp.strip
   end
 
+  def commit_comment(student_name, assignment_number, comment)
+    system "cd #{Rails.root}/repos/#{self.id}/#{student_name}/comments && echo #{comment} > comment_#{assignment_number}.txt && svn add comment_#{assignment_number}.txt && svn commit -m 'added comment #{assignment_number} for #{student_name}' "
+  end
+
   private
 
   def remove_svn

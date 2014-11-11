@@ -15,6 +15,7 @@ class Courses::Students::AssignmentsController < ApplicationController
   def update
     @student_to_assignment = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id)
     @student_to_assignment.update(achieved_points: params[:achieved_points])
+    @course.commit_comment(@student.username, @assignment.order, params[:comment])
     render layout: false
   end
 

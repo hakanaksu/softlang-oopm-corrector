@@ -28,7 +28,7 @@ class Courses::StudentsController < ApplicationController
   end
 
   def set_students
-    @students = @course.students
+    @students = current_user.students
   end
 
 end

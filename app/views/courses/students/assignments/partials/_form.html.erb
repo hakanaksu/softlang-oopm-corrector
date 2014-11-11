@@ -22,6 +22,12 @@
       </div>
     </div>
     <div class="form-group">
+      <%= label_tag :comment, 'Kommentar', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-6">
+        <%= text_area_tag :comment, '', class: 'form-control', rows: 5 %>
+      </div>
+    </div>
+    <div class="form-group">
       <div class="col-sm-12">
         <%= submit_tag 'Speichern', class: 'btn btn-primary pull-right', data: {disable_with: 'Speichert...'} %>
       </div>
