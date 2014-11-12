@@ -1,12 +1,15 @@
 class Course < ActiveRecord::Base
   include AASM
 
+  # === Relations ===
   has_many :course_to_students
   has_many :students, through: :course_to_students
   has_many :assignments
 
+  # === Callbacks ===
   before_destroy :remove_svn
 
+  # === Misc ===
   aasm column: 'svn_status' do
     state :not_checked_out, initial: true
     state :checked_out
@@ -20,6 +23,7 @@ class Course < ActiveRecord::Base
     end
   end
 
+  # === Methods ===
   def svn_student_folders
     Dir.entries("#{Rails.root}/repos/#{self.id}").select { |entry| File.directory? File.join("#{Rails.root}/repos/#{self.id}", entry) and !(entry =='.' || entry == '..' || entry == '.scripts' || entry == '.svn') }
   end

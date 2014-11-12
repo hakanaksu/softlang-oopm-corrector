@@ -1,4 +1,5 @@
 class Student < ActiveRecord::Base
+  # === Relations ===
   has_many :student_to_users
   has_many :users, through: :student_to_users
   has_many :course_to_students
@@ -6,6 +7,7 @@ class Student < ActiveRecord::Base
   has_many :student_to_assignments
   has_many :assignments, through: :student_to_assignments
 
+  # === Callbacks ===
   def self.create_from_course_svn_folders(course, tutor)
     course.svn_student_folders.each do |name|
       Student.create(username: name, email: "#{name}@uni-koblenz.de", users: [tutor], courses: [course], assignments: course.assignments) unless (course.students.pluck(:username).include? name)
