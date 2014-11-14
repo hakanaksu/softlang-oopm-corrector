@@ -5,7 +5,7 @@
     PublicTests durchgelaufen:
   </div>
   <div class="col-sm-7">
-    <%= tests_success(current_user.students) %>
+    <%= tests_success(current_user.students, @assignment) %>
   </div>
 </div>
 
@@ -14,7 +14,7 @@
     PublicTests failed:
   </div>
   <div class="col-sm-7">
-    <%= tests_failed(current_user.students) %>
+    <%= tests_failed(current_user.students, @assignment) %>
   </div>
 </div>
 
@@ -23,16 +23,16 @@
     ExtraTests durchgelaufen:
   </div>
   <div class="col-sm-7">
-    <%= tests_success(current_user.students, false) %>
+    <%= tests_success(current_user.students, @assignment, false) %>
   </div>
 </div>
 
 <div class="row">
   <div class="col-sm-5">
-    ExtraTests durchgelaufen:
+    ExtraTests fehlgeschlagen:
   </div>
   <div class="col-sm-7">
-    <%= tests_failed(current_user.students, false) %>
+    <%= tests_failed(current_user.students, @assignment, false) %>
   </div>
 </div>
 <hr/>

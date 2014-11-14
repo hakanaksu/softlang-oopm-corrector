@@ -22,9 +22,9 @@ module CoursesHelper
     end
   end
 
-  def tests_success(students, public_tests=true)
+  def tests_success(students,assignment, public_tests=true)
     students.map do |student|
-      student.student_to_assignments
+      student.student_to_assignments.where(assignment_id: assignment.id)
     end.flatten.map do |student_to_assignment|
       if public_tests
         student_to_assignment.public_test
@@ -36,9 +36,9 @@ module CoursesHelper
     end
   end
 
-  def tests_failed(students, public_tests=true)
+  def tests_failed(students,assignment, public_tests=true)
     students.map do |student|
-      student.student_to_assignments
+      student.student_to_assignments.where(assignment_id: assignment.id)
     end.flatten.map do |student_to_assignment|
       if public_tests
         student_to_assignment.public_test
