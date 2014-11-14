@@ -33,14 +33,18 @@ class Student < ActiveRecord::Base
   def compile_public_tests(course, assignment)
     system "rm #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.class"
     system "javac #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.java -cp #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:#{Rails.root}/lib/jars/junit.jar"
-    compile_result = system "cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. PublicTests"
+    compile_result = Timeout::timeout(60) {
+      system "cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. PublicTests"
+    } rescue false
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(public_test: compile_result)
   end
 
   def compile_extra_tests(course, assignment)
     system "rm #{Rails.root}/lib/extra_tests/#{assignment.order}/ExtraTests.class"
     system "javac #{Rails.root}/lib/extra_tests/#{assignment.order}/ExtraTests.java -cp #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:#{Rails.root}/lib/jars/junit.jar"
-    compile_result = system "cd #{Rails.root}/lib/extra_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. ExtraTests"
+    compile_result = Timeout::timeout(60) {
+      system "cd #{Rails.root}/lib/extra_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. ExtraTests"
+    } rescue false
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test: compile_result)
   end
 
