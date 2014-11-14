@@ -1,0 +1,95 @@
+<h1>Statistiken</h1>
+
+<div class="row">
+  <div class="col-sm-5">
+    PublicTests durchgelaufen:
+  </div>
+  <div class="col-sm-7">
+    <%= tests_success(current_user.students) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-5">
+    PublicTests failed:
+  </div>
+  <div class="col-sm-7">
+    <%= tests_failed(current_user.students) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-5">
+    ExtraTests durchgelaufen:
+  </div>
+  <div class="col-sm-7">
+    <%= tests_success(current_user.students, false) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-5">
+    ExtraTests durchgelaufen:
+  </div>
+  <div class="col-sm-7">
+    <%= tests_failed(current_user.students, false) %>
+  </div>
+</div>
+<hr/>
+
+<h1>Fast Corrector</h1>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Public</th>
+        <th>Extra</th>
+        <th>Encoding</th>
+        <th>Bewertung</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% current_user.students.each do |student| %>
+          <tr>
+            <td>
+              <%= link_to "#{@course.svn_url}/#{student.username}/solutions/#{@assignment.order}", target: '_blank' do %>
+                  <%= student.username %> <i class="fa fa-database"></i>
+              <% end %>
+            </td>
+            <td>
+              <% if test_status_public_test(student, @assignment) %>
+                  <span class="label label-success">Erfolgreich</span>
+              <% else %>
+                  <span class="label label-danger">Fehlgeschlagen</span>
+              <% end %>
+            </td>
+            <td>
+              <% if test_status_extra_test(student, @assignment) %>
+                  <span class="label label-success">Erfolgreich</span>
+              <% else %>
+                  <span class="label label-danger">Fehlgeschlagen</span>
+              <% end %>
+            </td>
+            <td>
+              <% if test_status_encoding(student, @assignment) %>
+                  <span class="label label-success">Erfolgreich</span>
+              <% else %>
+                  <span class="label label-danger">Fehlgeschlagen</span>
+              <% end %>
+            </td>
+            <td id="result_student_<%= student.id %>_assignment_<%= @assignment.id %>">
+              <%= render 'courses/assignments/tests/partials/comment_column', student: student %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    })
+</script>

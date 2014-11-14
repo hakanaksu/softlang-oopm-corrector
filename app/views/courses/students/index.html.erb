@@ -5,6 +5,32 @@
 <div class="row">
   <div class="col-sm-12">
     <% if user_signed_in? %>
+
+        <div class="btn-group">
+          <button type="button" id="students_run_tests_btn" class="btn btn-primary btn-lg btn-bnlock dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Tests ausführen für <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <% @course.assignments.each do |assignment| %>
+                <li>
+                  <a href="#" id="students_run_tests_<%= assignment.id %>_btn">
+                    <%= assignment.name %>
+                  </a>
+                  <script>
+                      $('#students_run_tests_<%= assignment.id %>_btn').on('click', function () {
+                          $('#students_run_tests_btn').html('<i class="fa fa-spinner fa-spin"></i> Alle Tests ausführen').addClass('disabled');
+                          $.ajax({
+                              url: '<%= course_assignment_tests_url(@course, assignment) %>',
+                              type: 'GET'
+                          })
+                      })
+                  </script>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+        <br/>
+        <br/>
         <table class="table table-striped table-hover table-bordered">
           <thead>
           <tr>
@@ -45,11 +71,11 @@
                                 <%= "Assignment #{assignment.order}" %>
                             <% end %>
                             <script>
-                              $('#assignment_<%= assignment.id %>_student_<%= student.id %>').on('click', function(){
-                                  var $panelContent = $('#dashboards_panel');
-                                  loadSpinner($panelContent, {type: 'panel'});
-                                  ajaxTab($panelContent, '<%= edit_course_student_assignment_url(@course, student, assignment) %>', 'Error');
-                              })
+                                $('#assignment_<%= assignment.id %>_student_<%= student.id %>').on('click', function () {
+                                    var $panelContent = $('#dashboards_panel');
+                                    loadSpinner($panelContent, {type: 'panel'});
+                                    ajaxTab($panelContent, '<%= edit_course_student_assignment_url(@course, student, assignment) %>', 'Error');
+                                })
                             </script>
                           </li>
                       <% end %>

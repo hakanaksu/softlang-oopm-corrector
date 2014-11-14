@@ -22,7 +22,12 @@ class Student < ActiveRecord::Base
 
   def compile_functionality(course, assignment)
     system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.class"
-    system "javac #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
+    encodingcorrect = system "javac #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
+    unless encodingcorrect
+      system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
+      self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(encoding: false)
+    end
+
   end
 
   def compile_public_tests(course, assignment)

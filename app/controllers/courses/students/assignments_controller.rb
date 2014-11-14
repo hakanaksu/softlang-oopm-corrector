@@ -7,14 +7,16 @@ class Courses::Students::AssignmentsController < ApplicationController
   # GET /courses/:course_id/students/:student_id/assignments/:id/edit
   def edit
     @student.run_tests(@course, @assignment)
+    @student_to_assign
     @public_test = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id).public_test
     @extra_test = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id).extra_test
+    @encoding = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id).encoding
     render layout: false
   end
 
   def update
     @student_to_assignment = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id)
-    @student_to_assignment.update(achieved_points: params[:achieved_points], achieved_points_programming: params[:achieved_points_programming])
+    @student_to_assignment.update(achieved_points: params[:achieved_points], achieved_points_programming: params[:achieved_points_programming], comment: params[:comment])
     @course.commit_comment(@student.username, @assignment.order, params[:comment])
     render layout: false
   end

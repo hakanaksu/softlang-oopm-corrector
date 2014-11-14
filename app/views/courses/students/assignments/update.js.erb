@@ -1,3 +1,4 @@
+$('#span_comment_student_<%= @student.id %>_assignment_<%= @assignment.id %>').removeClass('label-warning').addClass('label-success').html('Kommentar abgegeben');
 var $targetPanel = $('#dashboards_panel');
 loadSpinner($targetPanel, {type: 'panel'});
 ajaxTab($targetPanel, '<%= course_students_url(@course) %>', 'Fehler');

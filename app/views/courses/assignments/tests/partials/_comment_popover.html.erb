@@ -1,0 +1,11 @@
+<%= form_tag course_student_assignment_url(course, student, assignment), method: :patch, remote: true do %>
+    <div class="form-group">
+      <%= label_tag :comment, 'Kommentar', class: 'control-label' %>
+      <%= text_area_tag :comment, '', class: 'form-control', rows: 5 %>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <%= submit_tag 'Speichern', class: 'btn btn-primary pull-right', data: {disable_with: 'Speichert...'} %>
+      </div>
+    </div>
+<% end %>
