@@ -36,6 +36,22 @@ module CoursesHelper
     end
   end
 
+  def public_test_success_percent(student, assignment)
+    (tests_success(student,assignment) / (tests_success(student, assignment) + tests_failed(student, assignment)).to_f) * 100 rescue 0
+  end
+
+  def public_test_failed_percent(student, assignment)
+    (tests_failed(student,assignment) / (tests_success(student, assignment) + tests_failed(student, assignment)).to_f) * 100 rescue 0
+  end
+
+  def extra_test_success_percent(student, assignment)
+    (tests_success(student,assignment, false) / (tests_success(student, assignment, false) + tests_failed(student, assignment, false)).to_f) * 100 rescue 0
+  end
+
+  def extra_test_failed_percent(student, assignment)
+    (tests_failed(student,assignment, false) / (tests_success(student, assignment, false) + tests_failed(student, assignment, false)).to_f) * 100 rescue 0
+  end
+
   def tests_failed(students, assignment, public_tests=true)
     students.map do |student|
       student.student_to_assignments.where(assignment_id: assignment.id)

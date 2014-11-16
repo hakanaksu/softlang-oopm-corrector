@@ -15,7 +15,7 @@
 //= require bootstrap-sprockets
 //= require tab
 //= require bootstrap-datepicker
-//= require highstock/highstock
-//= require highstock/highcharts-3d
-//= require highstock/highcharts-more
+//= require highcharts/highcharts
+//= require highcharts/highcharts-all
+//= require highcharts/highcharts-3d
 //= require_tree .

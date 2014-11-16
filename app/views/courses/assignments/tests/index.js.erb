@@ -1,3 +1,43 @@
 $('#modal_dialog').modal('show');
 $('[data-toggle="popover"]').popover();
 $('#modal_dialog_content').html('<%= j render 'courses/assignments/tests/partials/results'  %>');
+
+$('#chart_assignment_<%= @assignment.id %>').highcharts({
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45,
+            beta: 0
+        }
+    },
+    title: {
+        text: '<%= @assignment.name %>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }
+    },
+    series: [
+        {
+            type: 'pie',
+            name: 'Prozent',
+            data: [
+                ['PublicTests Success', <%= public_test_success_percent(current_user.students, @assignment) %>],
+                ['PublicTests Failed', <%= public_test_failed_percent(current_user.students, @assignment) %>],
+                ['ExtraTests Success', <%= extra_test_success_percent(current_user.students, @assignment) %>],
+                ['ExtraTests Failed', <%= extra_test_failed_percent(current_user.students, @assignment) %>]
+            ]
+        }
+    ]
+});

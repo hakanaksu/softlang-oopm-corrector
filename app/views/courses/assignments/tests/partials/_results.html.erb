@@ -1,40 +1,17 @@
 <h1>Statistiken</h1>
 
 <div class="row">
-  <div class="col-sm-5">
-    PublicTests durchgelaufen:
+  <div class="col-sm-3">
+    PublicTests durchgelaufen: <%= tests_success(current_user.students, @assignment) %> <br/>
+    PublicTests failed: <%= tests_failed(current_user.students, @assignment) %> <br/>
+    ExtraTests durchgelaufen: <%= tests_success(current_user.students, @assignment, false) %> <br/>
+    ExtraTests fehlgeschlagen: <%= tests_failed(current_user.students, @assignment, false) %>
   </div>
-  <div class="col-sm-7">
-    <%= tests_success(current_user.students, @assignment) %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-5">
-    PublicTests failed:
-  </div>
-  <div class="col-sm-7">
-    <%= tests_failed(current_user.students, @assignment) %>
+  <div class="col-sm-9">
+    <div id="chart_assignment_<%= @assignment.id %>" style="height: 300px"></div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-5">
-    ExtraTests durchgelaufen:
-  </div>
-  <div class="col-sm-7">
-    <%= tests_success(current_user.students, @assignment, false) %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-5">
-    ExtraTests fehlgeschlagen:
-  </div>
-  <div class="col-sm-7">
-    <%= tests_failed(current_user.students, @assignment, false) %>
-  </div>
-</div>
 <hr/>
 
 <h1>Fast Corrector</h1>
