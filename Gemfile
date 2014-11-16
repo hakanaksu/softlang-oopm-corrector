@@ -9,7 +9,9 @@ gem 'autoprefixer-rails'
 gem 'devise'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'rolify'
 gem 'font-awesome-rails'
+gem 'cancancan', '~> 1.9'
 gem 'aasm'
 # Use CoffeeScript for .js.coffee assets and views
 # Use jquery as the JavaScript library
