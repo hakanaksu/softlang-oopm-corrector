@@ -16,6 +16,5 @@
 //= require tab
 //= require bootstrap-datepicker
 //= require highcharts/highcharts
-//= require highcharts/highcharts-all
 //= require highcharts/highcharts-3d
 //= require_tree .
