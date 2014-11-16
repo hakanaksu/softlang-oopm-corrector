@@ -1,7 +1,15 @@
 <%= form_tag course_student_assignment_url(course, student, assignment), method: :patch, remote: true do %>
     <div class="form-group">
+      <%= label_tag :achieved_points, 'Bewertung Hausaufgabe', class: 'control-label' %>
+      <%= number_field_tag :achieved_points, student_assignment(student, assignment).achieved_points, class: 'form-control', min: 0 %>
+    </div>
+    <div class="form-group">
+      <%= label_tag :achieved_points_programming, 'Bewertung Programmieraufgabe', class: 'control-label' %>
+      <%= number_field_tag :achieved_points_programming, student_assignment(student, assignment).achieved_points_programming, class: 'form-control', min: 0 %>
+    </div>
+    <div class="form-group">
       <%= label_tag :comment, 'Kommentar', class: 'control-label' %>
-      <%= text_area_tag :comment, '', class: 'form-control', rows: 5 %>
+      <%= text_area_tag :comment, comment_content(student, assignment), class: 'form-control', rows: 5 %>
     </div>
     <div class="form-group">
       <div class="col-sm-12">

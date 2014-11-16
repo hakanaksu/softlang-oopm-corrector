@@ -22,7 +22,7 @@ module CoursesHelper
     end
   end
 
-  def tests_success(students,assignment, public_tests=true)
+  def tests_success(students, assignment, public_tests=true)
     students.map do |student|
       student.student_to_assignments.where(assignment_id: assignment.id)
     end.flatten.map do |student_to_assignment|
@@ -36,7 +36,7 @@ module CoursesHelper
     end
   end
 
-  def tests_failed(students,assignment, public_tests=true)
+  def tests_failed(students, assignment, public_tests=true)
     students.map do |student|
       student.student_to_assignments.where(assignment_id: assignment.id)
     end.flatten.map do |student_to_assignment|
@@ -65,4 +65,19 @@ module CoursesHelper
   def comment_given?(student, assignment)
     student.student_to_assignments.find_by(student_id: student.id, assignment_id: assignment.id).comment.present?
   end
+
+  def comment_content(student, assignment)
+    student.student_to_assignments.find_by(student_id: student.id, assignment_id: assignment.id).comment
+  end
+
+  def student_assignment(student, assignment)
+    student.student_to_assignments.find_by(student_id: student.id, assignment_id: assignment.id)
+  end
+
+  def student_comments_given(student)
+    student.assignments.inject(0) do |sum,assignment|
+      student_assignment(student, assignment).comment.present? ? sum += 1 : sum += 0
+    end
+  end
+
 end

@@ -1,11 +1,7 @@
-<% if comment_given?(student, @assignment) %>
-    <span class="label label-success">Kommentar vorhanden</span>
-<% else %>
-    <span class="label label-warning"
-          id="span_comment_student_<%= student.id %>_assignment_<%= @assignment.id %>"
-          data-toggle="popover"
-          title="Popover title"
-          data-placement="left"
-          data-html="true"
-          data-content='<%= render partial: 'courses/assignments/tests/partials/comment_popover', locals: {course: @course, student: student, assignment: @assignment} %>'>Kommentar verfassen</span>
-<% end %>
+<span class="label label-<%= comment_given?(student, @assignment) ? 'success' : 'warning' %>"
+      id="span_comment_student_<%= student.id %>_assignment_<%= @assignment.id %>"
+      data-toggle="popover"
+      title="Popover title"
+      data-placement="left"
+      data-html="true"
+      data-content='<%= render partial: 'courses/assignments/tests/partials/comment_popover', locals: {course: @course, student: student, assignment: @assignment} %>'>Kommentar verfassen</span>

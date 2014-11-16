@@ -38,6 +38,7 @@
             <th>Username</th>
             <th>E-Mail</th>
             <th>Punkte</th>
+            <th>Bewertungen</th>
             <th>Fortschritt bis zur Zulassung</th>
             <th></th>
           </tr>
@@ -49,6 +50,7 @@
                 <td><%= student.username %></td>
                 <td><%= student.email %></td>
                 <td><%= student_points(student) %> / <%= @course.max_points %></td>
+                <td><%= student_comments_given(student) %> / <%= @course.assignments.count %> </td>
                 <td>
                   <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: <%= course_progress(student, student.courses.first) %>%;">
