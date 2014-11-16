@@ -15,9 +15,15 @@ class Student < ActiveRecord::Base
   end
 
   def run_tests(course, assignment)
-    compile_functionality(course, assignment)
-    compile_public_tests(course, assignment)
-    compile_extra_tests(course, assignment)
+    assignment_for_student = self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id)
+    if assignment_for_student.processing_status == StudentToAssignment::NOT_STARTED
+      compile_functionality(course, assignment)
+      compile_public_tests(course, assignment)
+      compile_extra_tests(course, assignment)
+      assignment_for_student.update(processing_status: StudentToAssignment::DONE)
+    else
+      true
+    end
   end
 
   def compile_functionality(course, assignment)
