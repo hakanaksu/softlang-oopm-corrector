@@ -14,4 +14,21 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def self.generate_comment(points_homework, points_programming, comment, user, student, assignment)
+    <<EOF
+Sehr geehrter Student #{student.username},
+
+Sie haben in der Aufgabe #{assignment.name} folgende Punktzahlen erreicht:
+---
+Hausaufgabe: #{points_homework} / 2
+Programmieraufgabe: #{points_programming} / 3
+---
+Kommentare:
+#{comment}
+
+Korrektor: #{user.email}
+
+EOF
+  end
+
 end
