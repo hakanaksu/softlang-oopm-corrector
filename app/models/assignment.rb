@@ -28,6 +28,9 @@ Kommentare:
 
 Korrektor: #{user.email}
 
+Mit freundlichen Grüßen
+OOPM-Team
+
 EOF
   end
 
