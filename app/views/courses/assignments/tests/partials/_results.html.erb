@@ -38,7 +38,7 @@
             <tr>
               <td>
                 <%= link_to "#{@course.svn_url}/#{student.username}/solutions/#{@assignment.order}", target: '_blank' do %>
-                    <%= student.username %> <i class="fa fa-database"></i>
+                    <%= student.username %> <i class="fa fa-database"></i> <%= committed_solution(student, @assignment) ? '' : '(Keine Abgabe)' %>
                 <% end %>
               </td>
               <td>

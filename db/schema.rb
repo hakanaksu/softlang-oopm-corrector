@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116123211) do
+ActiveRecord::Schema.define(version: 20141123154632) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20141116123211) do
     t.boolean  "encoding",                    default: true
     t.text     "comment"
     t.string   "processing_status",           default: "not_started"
+    t.boolean  "solution_commited",           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

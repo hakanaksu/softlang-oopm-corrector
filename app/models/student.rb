@@ -17,12 +17,20 @@ class Student < ActiveRecord::Base
   def run_tests(course, assignment)
     assignment_for_student = self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id)
     if assignment_for_student.processing_status == StudentToAssignment::NOT_STARTED
+      check_if_committed(course, assignment)
       compile_functionality(course, assignment)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
       assignment_for_student.update(processing_status: StudentToAssignment::DONE)
     else
       true
+    end
+  end
+
+  def check_if_committed(course, assignment)
+    files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' } rescue []
+    if files.present?
+      self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(solution_commited: true)
     end
   end
 
