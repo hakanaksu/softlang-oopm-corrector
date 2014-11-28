@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="Rails auto-corrector: development" uuid="dbe2f3a7-c755-425f-9963-445e2628de7c">
+  <data-source name="Rails auto-corrector: development" uuid="dbe2f3a7-c755-425f-9963-445e2628de7c">
     <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>
