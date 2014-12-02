@@ -42,32 +42,34 @@ class Student < ActiveRecord::Base
 
   def compile_functionality(course, assignment)
     system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.class"
-    encodingcorrect = system "javac #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
-    unless encodingcorrect
-      system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
-      self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(encoding: false)
-    end
-
+    encodingcorrect = File.read("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java").encoding == Encoding.find('UTF-8') rescue false
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Functionality.java"
+    self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(encoding: encodingcorrect)
   end
 
   def compile_public_tests(course, assignment)
     system "rm #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.class"
     system "javac #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.java -cp #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:#{Rails.root}/lib/jars/junit.jar"
+    compile_text = ''
     compile_result = Timeout::timeout(60) {
+      compile_text = %x{cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore PublicTests}
       system "cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore PublicTests"
     } rescue false
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(public_test: compile_result)
-
-
+    self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(public_test_exception: compile_text)
   end
 
   def compile_extra_tests(course, assignment)
     system "rm #{Rails.root}/lib/extra_tests/#{assignment.order}/ExtraTests.class"
     system "javac #{Rails.root}/lib/extra_tests/#{assignment.order}/ExtraTests.java -cp #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:#{Rails.root}/lib/jars/junit.jar"
+    compile_text = ''
     compile_result = Timeout::timeout(60) {
+      compile_text = %x{cd #{Rails.root}/lib/extra_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore ExtraTests}
       system "cd #{Rails.root}/lib/extra_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore ExtraTests"
     } rescue false
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test: compile_result)
+    self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test_exception: compile_text)
+
   end
 
 end

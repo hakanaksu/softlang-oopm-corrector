@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123154632) do
+ActiveRecord::Schema.define(version: 20141130231419) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20141123154632) do
     t.integer  "achieved_points",             default: 0
     t.integer  "achieved_points_programming", default: 0
     t.boolean  "public_test",                 default: false
+    t.text     "public_test_exception"
+    t.text     "extra_test_exception"
     t.boolean  "extra_test",                  default: false
     t.boolean  "encoding",                    default: true
     t.text     "comment"
