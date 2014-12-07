@@ -52,12 +52,12 @@
                 <td><%= student_points(student) %> / <%= @course.max_points %></td>
                 <td><%= student_comments_given(student) %> / <%= @course.assignments.count %> </td>
                 <td>
-                  Hausaufgabe:
+                  Hausaufgabe (<%= homework_points(student) %>/20):
                   <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: <%= homework_progress(student, student.courses.first) %>%;">
                     </div>
                   </div>
-                  Programmieraufgabe:
+                  Programmieraufgabe (<%= programming_points(student) %>/30):
                   <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: <%= programming_progress(student, student.courses.first) %>%;">
                     </div>
