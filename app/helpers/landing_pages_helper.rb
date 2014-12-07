@@ -17,7 +17,7 @@ module LandingPagesHelper
   end
 
   def programming_progress(student, course)
-    (programming_points(student) / course.max_points.to_f) * 100 rescue 0
+    (programming_points(student) / 30.to_f) * 100 rescue 0
   end
 
   def homework_points(student)
@@ -27,7 +27,7 @@ module LandingPagesHelper
   end
 
   def homework_progress(student, course)
-    (homework_points(student) / course.max_points.to_f) * 100 rescue 0
+    (homework_points(student) / 20.to_f) * 100 rescue 0
   end
 
 end
