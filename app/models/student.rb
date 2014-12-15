@@ -19,6 +19,7 @@ class Student < ActiveRecord::Base
     if assignment_for_student.processing_status == StudentToAssignment::NOT_STARTED
       check_if_committed(course, assignment)
       compile_vector(course, assignment) if assignment.order == 4
+      compile_monoid(course, assignment) if assignment.order == 6
       compile_functionality(course, assignment)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
@@ -33,6 +34,17 @@ class Student < ActiveRecord::Base
     if files.present?
       self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(solution_commited: true)
     end
+  end
+
+  def compile_monoid(course, assignment)
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Monoid.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Monoid.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/MultMonoid.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/MultMonoid.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/SumMonoid.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/SumMonoid.java"
   end
 
   def compile_vector(course, assignment)
