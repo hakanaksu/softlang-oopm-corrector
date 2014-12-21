@@ -16,9 +16,9 @@ class Courses::Students::AssignmentsController < ApplicationController
 
   def update
     @student_to_assignment = @student.student_to_assignments.find_by(assignment_id: @assignment.id, student_id: @student.id)
-    comment_template = Assignment.generate_comment(params[:achieved_points], params[:achieved_points_programming], params[:comment], current_user, @student, @assignment)
-    @student_to_assignment.update(achieved_points: params[:achieved_points], achieved_points_programming: params[:achieved_points_programming], comment: comment_template)
-    @course.commit_comment(@student.username, @assignment.order, comment_template)
+    pdf_path = Assignment.generate_comment(params[:achieved_points], params[:achieved_points_programming], params[:comment], current_user, @student, @assignment)
+    @student_to_assignment.update(achieved_points: params[:achieved_points], achieved_points_programming: params[:achieved_points_programming], comment: params[:comment])
+    @course.commit_comment(@student.username, @assignment.order, pdf_path)
     render layout: false
   end
 

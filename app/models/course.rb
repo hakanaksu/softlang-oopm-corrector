@@ -32,11 +32,8 @@ class Course < ActiveRecord::Base
     %x{cd #{Rails.root}/repos/#{self.id} && svn info | grep Revision}.chomp.strip
   end
 
-  def commit_comment(student_name, assignment_number, comment)
-    system "cd #{Rails.root}/repos/#{self.id}/#{student_name}/comments && rm comment_#{assignment_number}.txt && svn update"
-    File.open("#{Rails.root}/repos/#{self.id}/#{student_name}/comments/comment_#{assignment_number}.txt", "w:UTF-8") do |file|
-      file.write(comment)
-    end
+  def commit_comment(student_name, assignment_number, pdf_path)
+    system "cp #{pdf_path} #{Rails.root}/repos/#{self.id}/#{student_name}/comments/comment_#{assignment_number}.pdf"
     system "cd #{Rails.root}/repos/#{self.id}/#{student_name}/comments && svn add * --force && svn commit -m 'added comment #{assignment_number} for #{student_name}' "
   end
 

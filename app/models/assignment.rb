@@ -15,20 +15,22 @@ class Assignment < ActiveRecord::Base
   end
 
   def self.generate_comment(points_homework, points_programming, comment, user, student, assignment)
-    <<EOF
-Sehr geehrter Student mit der Kennung #{student.username},
+    ac = ApplicationController.new
+    ac.instance_variable_set("@student", student)
+    ac.instance_variable_set("@assignment", assignment)
+    ac.instance_variable_set("@course", assignment.course)
+    ac.instance_variable_set("@user", user)
+    ac.instance_variable_set("@comment", comment)
+    ac.instance_variable_set("@points_homework", points_homework)
+    ac.instance_variable_set("@points_programming", points_programming)
+    pdf = ac.render_to_string(pdf: "the_pdf_filename", template: 'comments/show')
 
-Sie haben in der Aufgabe #{assignment.order} folgende Punktzahlen erreicht:
----
-Hausaufgabe: #{points_homework} / 2
-Programmieraufgabe: #{points_programming} / 3
----
-Kommentare:
-#{comment}
 
-Korrektor: #{user.email}
-
-EOF
+    save_path = Rails.root.join('pdfs', "comment_course_#{assignment.course.name}_ass_#{assignment.order}_student_#{student.username}.pdf")
+    File.open(save_path, 'wb') do |file|
+      file << pdf
+    end
+    save_path
   end
 
 end

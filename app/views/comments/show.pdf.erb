@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/>
+  <%= wicked_pdf_stylesheet_link_tag "application" -%>
+  <%= wicked_pdf_javascript_include_tag "application" %>
+</head>
+<body>
+<br/>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>
+        <%= @course.name %>
+        <small>(Bewertung zur Aufgabe: <%= @assignment.order %>)</small>
+      </h1>
+      <hr/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>
+        Sehr geehrter Student/-in mit der Kennung <b><%= @student.username %></b>, <br/> <br/>
+        Sie haben in der <b>Aufgabe <%= @assignment.order %></b> folgende Punktzahlen erreicht:
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="well">
+        <h4><b>Hausaufgabe</b>
+          <small>(<%= @points_homework %>/2 Punkten)</small>
+        </h4>
+        <hr>
+        <h4><b>Programmieraufgabe</b>
+          <small>(<%= @points_programming %>/3 Punkten)</small>
+        </h4>
+        <br/>
+
+        <div>
+          PublicTests:
+          <% if test_status_public_test(@student, @assignment) %>
+              <span class="label label-success">Erfolgreich</span>
+          <% else %>
+              <span class="label label-danger">Fehlgeschlagen</span>
+          <% end %>
+        </div>
+        <br/>
+
+        <div>
+          ExtraTests:
+          <% if test_status_extra_test(@student, @assignment) %>
+              <span class="label label-success">Erfolgreich</span>
+          <% else %>
+              <span class="label label-danger">Fehlgeschlagen</span>
+          <% end %>
+        </div>
+        <br/>
+
+        <div>
+          Encoding:
+          <% if test_status_encoding(@student, @assignment) %>
+              <span class="label label-success">Erfolgreich</span>
+          <% else %>
+              <span class="label label-danger">Fehlgeschlagen</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="well">
+        <h4>
+          <b>Kommentare</b>
+        </h4>
+
+        <div>
+          <%= simple_format @comment %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="well">
+        <h4>
+          <b>Korrektor</b>
+        </h4>
+        <dl>
+          <dt>E-Mail Adresse</dt>
+          <dd><%= @user.email %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
