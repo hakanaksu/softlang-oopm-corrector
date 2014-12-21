@@ -33,6 +33,7 @@ class Course < ActiveRecord::Base
   end
 
   def commit_comment(student_name, assignment_number, pdf_path)
+    system "cd #{Rails.root}/repos/#{self.id}/#{student_name}/comments && svn update"
     system "rm -f #{Rails.root}/repos/#{self.id}/#{student_name}/comments/comment_#{assignment_number}.pdf"
     system "cp #{pdf_path} #{Rails.root}/repos/#{self.id}/#{student_name}/comments/comment_#{assignment_number}.pdf"
     system "cd #{Rails.root}/repos/#{self.id}/#{student_name}/comments && svn add * --force && svn commit -m 'added comment #{assignment_number} for #{student_name}' "
