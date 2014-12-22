@@ -20,6 +20,7 @@ class Student < ActiveRecord::Base
       check_if_committed(course, assignment)
       compile_vector(course, assignment) if assignment.order == 4
       compile_monoid(course, assignment) if assignment.order == 6
+      compile_cyclic_list(course, assignment) if assignment.order == 7
       compile_functionality(course, assignment)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
@@ -34,6 +35,14 @@ class Student < ActiveRecord::Base
     if files.present?
       self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(solution_commited: true)
     end
+  end
+
+  def compile_cyclic_list(course, assignment)
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleListElement.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleListElement.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleList.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleList.java"
   end
 
   def compile_monoid(course, assignment)
@@ -63,7 +72,7 @@ class Student < ActiveRecord::Base
     system "rm #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.class"
     system "javac #{Rails.root}/lib/public_tests/#{assignment.order}/PublicTests.java -cp #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:#{Rails.root}/lib/jars/junit.jar"
     compile_text = ''
-    compile_result = Timeout::timeout(60) {
+    compile_result = Timeout::timeout(120) {
       compile_text = %x{cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore PublicTests}
       system "cd #{Rails.root}/lib/public_tests/#{assignment.order} && java -cp #{Rails.root}/lib/jars/junit.jar:#{Rails.root}/lib/jars/hamcrest-core-1.3.jar:#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}:. org.junit.runner.JUnitCore PublicTests"
     } rescue false
