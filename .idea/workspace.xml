@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7263469c-5fb3-4cd4-9a1a-2da1d9785627" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/courses/assignments/tests/partials/_results.html.erb" afterPath="$PROJECT_DIR$/app/views/courses/assignments/tests/partials/_results.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/courses_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/courses_helper.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb" afterPath="$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/student.rb" afterPath="$PROJECT_DIR$/app/models/student.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="auto-corrector.iws" />
@@ -47,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="student.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="student.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/student.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5479233" vertical-offset="332" max-vertical-offset="1950">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="1950">
+              <caret line="43" column="82" selection-start-line="43" selection-start-column="82" selection-end-line="43" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -60,8 +58,18 @@
       <file leaf-file-name="_results.html.erb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/courses/assignments/tests/partials/_results.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.25" vertical-offset="465" max-vertical-offset="1275">
-              <caret line="41" column="83" selection-start-line="41" selection-start-column="83" selection-end-line="41" selection-end-column="83" />
+            <state vertical-scroll-proportion="-0.625" vertical-offset="780" max-vertical-offset="1275">
+              <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20150118184726_add_home_work_committed.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.04694836" vertical-offset="0" max-vertical-offset="639">
+              <caret line="2" column="110" selection-start-line="2" selection-start-column="110" selection-end-line="2" selection-end-column="110" />
               <folding />
             </state>
           </provider>
@@ -71,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/app/helpers/courses_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1221" max-vertical-offset="1680">
-              <caret line="106" column="3" selection-start-line="106" selection-start-column="3" selection-end-line="106" selection-end-column="3" />
+              <caret line="103" column="114" selection-start-line="103" selection-start-column="114" selection-end-line="103" selection-end-column="114" />
               <folding />
             </state>
           </provider>
@@ -152,12 +160,12 @@
         <option value="$PROJECT_DIR$/app/views/comments/show.pdf.erb" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/lib/extra_tests/7/ExtraTests.java" />
-        <option value="$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb" />
         <option value="$PROJECT_DIR$/app/models/course.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20150118190252_add_programming_committed.rb" />
+        <option value="$PROJECT_DIR$/app/models/student.rb" />
         <option value="$PROJECT_DIR$/app/helpers/courses_helper.rb" />
         <option value="$PROJECT_DIR$/app/views/courses/assignments/tests/partials/_results.html.erb" />
-        <option value="$PROJECT_DIR$/app/models/student.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb" />
       </list>
     </option>
   </component>
@@ -1839,14 +1847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1633987" vertical-offset="0" max-vertical-offset="459">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.1.1@softlang-dev/gems/rails-4.1.5/guides/source/migrations.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16725">
@@ -1863,26 +1863,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/student.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="1950">
+          <caret line="43" column="82" selection-start-line="43" selection-start-column="82" selection-end-line="43" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/courses_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1221" max-vertical-offset="1680">
-          <caret line="106" column="3" selection-start-line="106" selection-start-column="3" selection-end-line="106" selection-end-column="3" />
+          <caret line="103" column="114" selection-start-line="103" selection-start-column="114" selection-end-line="103" selection-end-column="114" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/courses/assignments/tests/partials/_results.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.25" vertical-offset="465" max-vertical-offset="1275">
-          <caret line="41" column="83" selection-start-line="41" selection-start-column="83" selection-end-line="41" selection-end-column="83" />
+        <state vertical-scroll-proportion="-0.625" vertical-offset="780" max-vertical-offset="1275">
+          <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/student.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20150118184726_add_home_work_committed.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5479233" vertical-offset="332" max-vertical-offset="1950">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.04694836" vertical-offset="0" max-vertical-offset="639">
+          <caret line="2" column="110" selection-start-line="2" selection-start-column="110" selection-end-line="2" selection-end-column="110" />
           <folding />
         </state>
       </provider>

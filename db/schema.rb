@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20150118184726) do
     t.text     "comment"
     t.string   "processing_status",           default: "not_started"
     t.boolean  "solution_commited",           default: false
-    t.boolean  "homework_commited"
+    t.boolean  "homework_commited",           default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
