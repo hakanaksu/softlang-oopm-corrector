@@ -100,4 +100,8 @@ module CoursesHelper
     student.student_to_assignments.find_by(student_id: student.id, assignment_id: assignment.id).solution_commited
   end
 
+  def committed_homework(student, assignment)
+    student.student_to_assignments.find_by(student_id: student.id, assignment_id: assignment.id).homework_commited
+  end
+
 end
