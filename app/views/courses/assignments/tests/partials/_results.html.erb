@@ -46,14 +46,26 @@
                 <% if test_status_public_test(student, @assignment) %>
                     <span class="label label-success">Erfolgreich</span>
                 <% else %>
-                    <span class="label label-danger">Fehlgeschlagen</span>
+                    <span class="label label-danger"
+                          data-toggle="popover"
+                          data-trigger="hover"
+                          data-html="true"
+                          title="Stacktrace"
+                          data-content="<%= simple_format student_assignment(student, @assignment).public_test_exception.gsub(/(org.junit.*|sun.*|at|\r|\n|java.lang.*)/, '') %>"
+                          data-placement="bottom">Fehlgeschlagen</span>
                 <% end %>
               </td>
               <td>
                 <% if test_status_extra_test(student, @assignment) %>
                     <span class="label label-success">Erfolgreich</span>
                 <% else %>
-                    <span class="label label-danger">Fehlgeschlagen</span>
+                    <span class="label label-danger"
+                          data-toggle="popover"
+                          data-trigger="hover"
+                          data-html="true"
+                          title="Stacktrace"
+                          data-content="<%= simple_format student_assignment(student, @assignment).extra_test_exception.gsub(/(org.junit.*|sun.*|at|\r|\n|java.lang.*)/, '') %>"
+                          data-placement="bottom">Fehlgeschlagen</span>
                 <% end %>
               </td>
               <td>
@@ -76,5 +88,6 @@
 <script>
     $(function () {
         $('[data-toggle="popover"]').popover();
+        $('[data-toggle="tooltip"]').tooltip()
     })
 </script>

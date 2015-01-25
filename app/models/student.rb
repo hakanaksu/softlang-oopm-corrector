@@ -22,7 +22,8 @@ class Student < ActiveRecord::Base
       compile_monoid(course, assignment) if assignment.order == 6
       compile_cyclic_list(course, assignment) if assignment.order == 7
       compile_bin_int_tree(course, assignment) if assignment.order == 8
-      compile_functionality(course, assignment)
+      compile_person(course, assignment) if assignment.order == 9
+      compile_functionality(course, assignment) unless assignment.order == 9
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
       assignment_for_student.update(processing_status: StudentToAssignment::DONE)
@@ -42,6 +43,46 @@ class Student < ActiveRecord::Base
   def check_if_homework_committed(course, assignment)
     files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' }.map{|file| File.extname(file)}.uniq rescue []
     (files.include? '.pdf') ? self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: true) : self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: false)
+  end
+
+  def compile_person(course, assignment)
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Angestellter.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Angestellter.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.java"
+
+    # ===
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Angestellter.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Angestellter.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/srcGeschaeftsKunde.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Kunde.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Manager.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Person.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/PrivatKunde.java"
   end
 
   def compile_bin_int_tree(course, assignment)

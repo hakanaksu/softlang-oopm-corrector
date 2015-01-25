@@ -1,9 +1,21 @@
 <script>
-    $('#dashboard_title').html('<%= @assignment.name %> für den Studenten <%= @student.username %> bewerten');
-    $('#courses_index_link').on('click', function () {
-        var $targetPanel = $('#dashboards_panel');
-        loadSpinner($targetPanel, {type: 'panel'});
-        ajaxTab($targetPanel, '<%= courses_url %>', 'Fehler');
+    $(function () {
+        $('#dashboard_title').html('<%= @assignment.name %> für den Studenten <%= @student.username %> bewerten');
+        $('#courses_index_link').on('click', function () {
+            var $targetPanel = $('#dashboards_panel');
+            loadSpinner($targetPanel, {type: 'panel'});
+            ajaxTab($targetPanel, '<%= courses_url %>', 'Fehler');
+        });
+        $('#back_to_students').on('click', function () {
+            var $targetPanel = $('#dashboards_panel');
+            loadSpinner($targetPanel, {type: 'panel'});
+            ajaxTab($targetPanel, '<%= course_students_url(@course) %>', 'Fehler');
+        });
+        $('#students_index_link').on('click', function () {
+            var $targetPanel = $('#dashboards_panel');
+            loadSpinner($targetPanel, {type: 'panel'});
+            ajaxTab($targetPanel, '<%= course_students_url(@course) %>', 'Fehler');
+        });
     });
 </script>
 <ol class="breadcrumb">
@@ -12,6 +24,11 @@
         Kurse
     <% end %>
   </li>
+  <li>
+    <%= link_to 'javascript:void(0);', remote: true, id: 'students_index_link' do %>
+        Studenten
+    <% end %>
+  </li>
   <li class="active">Aufgabe bewerten</li>
 </ol>
-<%= render partial: 'courses/students/assignments/partials/form', locals: {course: @course, assignment: @assignment, student: @student, achieved_points: @achieved_points,achieved_points_programming: @achieved_points_programming, extra_test: @extra_test, public_test: @public_test, encoding: @encoding} %>
+<%= render partial: 'courses/students/assignments/partials/form', locals: {course: @course, assignment: @assignment, student: @student, achieved_points: @achieved_points, achieved_points_programming: @achieved_points_programming, extra_test: @extra_test, public_test: @public_test, encoding: @encoding} %>
