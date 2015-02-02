@@ -23,7 +23,8 @@ class Student < ActiveRecord::Base
       compile_cyclic_list(course, assignment) if assignment.order == 7
       compile_bin_int_tree(course, assignment) if assignment.order == 8
       compile_person(course, assignment) if assignment.order == 9
-      compile_functionality(course, assignment) unless assignment.order == 9
+      compile_typesystem(course, assignment) if assignment.order == 10
+      compile_functionality(course, assignment) unless (assignment.order == 9 || assignment.order == 10)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
       assignment_for_student.update(processing_status: StudentToAssignment::DONE)
@@ -41,8 +42,56 @@ class Student < ActiveRecord::Base
   end
 
   def check_if_homework_committed(course, assignment)
-    files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' }.map{|file| File.extname(file)}.uniq rescue []
+    files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' }.map { |file| File.extname(file) }.uniq rescue []
     (files.include? '.pdf') ? self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: true) : self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: false)
+  end
+
+  def compile_typesystem(course, assignment)
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Attribute.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Attribute.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Boolean.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Boolean.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CharArray.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CharArray.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Class.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Class.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Default.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Default.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Integer.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Integer.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Interface.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Interface.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Javafile.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Javafile.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Method.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Method.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Private.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Private.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Protected.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Protected.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Public.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Public.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Type.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Type.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Typeable.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Typeable.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Visibility.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Visibility.java"
+
   end
 
   def compile_person(course, assignment)
@@ -160,6 +209,18 @@ class Student < ActiveRecord::Base
     } rescue false
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test: compile_result)
     self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test_exception: compile_text) rescue self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(extra_test_exception: 'Console Output too long for database. Sorry.')
+  end
+
+  def homework_admission_completed?
+    (self.student_to_assignments.pluck(:achieved_points).select{|element| element >= 1}.inject(:+) / 20.0) >= 0.66 rescue false
+  end
+
+  def homework_admission_completed_two?
+    (self.student_to_assignments.pluck(:achieved_points).select{|element| element >= 2}.inject(:+) / 20.0) >= 0.33 rescue false
+  end
+
+  def programming_admission_completed?
+    (self.student_to_assignments.pluck(:achieved_points_programming).select{|element| element >= 2}.inject(:+) / 30.0) >= 0.66 rescue false
   end
 
 end

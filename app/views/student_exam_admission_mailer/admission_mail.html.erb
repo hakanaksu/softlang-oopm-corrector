@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+<h2>Zusammenfassung für OOPM 14/15</h2>
+<hr/>
+<div class="row">
+  <div class="well">
+    Sehr geehrter Student mit der Kennung <%= @user.username %>,
+    diese E-Mail beinhaltet eine Zusammenfassung ihrer bisher erbrachten wöchentlich Leistungen für den Kurs OOPM 14/15.
+  </div>
+</div>
+
+<% @user.student_to_assignments.each do |ass| %>
+    <div class="row">
+      <div class="well">
+        <h5>Aufgabe: <%= ass.assignment.order %></h5>
+        <b>Punkte Hausaufgabe:</b> <%= ass.achieved_points %> / 2 <br/>
+        <b>Punkte Programmieraufgabe:</b> <%= ass.achieved_points_programming %> / 3
+      </div>
+    </div>
+<% end %>
+<div class="row">
+  <div class="well">
+    <h4>Gesamt</h4>
+    <b>Hausaufgabe: <%= @user.student_to_assignments.pluck(:achieved_points).inject(:+) %> / 20</b> <br/>
+
+    <b>Programmieraufgabe: <%= @user.student_to_assignments.pluck(:achieved_points_programming).inject(:+) %> / 30</b>
+  </div>
+</div>
+
+<div class="row">
+  <div class="well">
+    <h4>Klausurzulassungen</h4>
+    <b>Hausaufgabe:</b><br/>
+    Für 2/3 der Hausaufgaben müssen 1 Punkt oder mehr erreicht
+    werden
+    <a href="http://softlang.wikidot.com/course:oopm1415-rules">(*)</a>: <%= @user.homework_admission_completed? ? 'Erfüllt' : 'Nicht erfüllt' %>
+    <br/>
+    Für 1/3 der Hausaufgaben müssen 2 Punkte erreicht
+    werden
+    <a href="http://softlang.wikidot.com/course:oopm1415-rules">(*)</a>: <%= @user.homework_admission_completed_two? ? 'Erfüllt' : 'Nicht erfüllt' %>
+    <br/>
+    <b>Die Zulassung für die Teilprüfung "OOPM Vorlesung/Übung" wurde somit:<br/></b>
+    --- <%= (@user.homework_admission_completed? && @user.homework_admission_completed_two?) ? 'Erworben' : 'Nicht erworben' %>
+    ---
+    <br/><br/><br/>
+    <b>Programmieraufgabe:</b><br/>
+    Für 2/3 der Programmier(haus)aufgaben müssen 2 oder mehr Punkte erreicht
+    werden
+    <a href="http://softlang.wikidot.com/course:oopm1415-rules">(*)</a>: <%= @user.programming_admission_completed? ? 'Erfüllt' : 'Nicht erfüllt' %>
+    <br/>
+    <b>Teilprüfung "OOPM Programmierpraktikum" wurde somit:<br/></b>
+    --- <%= @user.programming_admission_completed? ? 'Erworben' : 'Nicht erworben' %> ---
+  </div>
+</div>
+<div class="row">
+  <div class="well">
+    <h4>Anmerkungen</h4>
+    Das Modul gilt nur als bestanden wenn beide Teilprüfungen bestanden sind. Bestandene Teilprüfungen seit WS 2009/10
+    werden nach Möglichkeit in das aktuelle Semester vererbt. Die Zulassung wird ebenfalls aus den Editionen WS
+    2012/13 und WS 2011/12 vererbt.<br/> (Es gab keine Zulassungsbedingungen in der Edition WS 2013/14. Somit müssen
+    Studierende aus dieser Edition die Zulassung erwerben.) Dies gilt vorbehaltlich der Machbarkeit aus Sicht der
+    Prüfungsordnung, des Prüfungsamtes und des Datenstandes.
+    <br/><b>Falls eine Zulassung bereits besteht so bitte Ich um eine kurze E-Mail an: erwinschens@uni-koblenz.de mit
+    der
+    Matrikelnummer und dem Jahr, wann die Zulassung erworben wurde.</b>
+  </div>
+</div>
+</body>
+</html>
