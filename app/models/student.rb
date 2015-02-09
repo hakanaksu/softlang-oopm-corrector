@@ -24,6 +24,7 @@ class Student < ActiveRecord::Base
       compile_bin_int_tree(course, assignment) if assignment.order == 8
       compile_person(course, assignment) if assignment.order == 9
       compile_typesystem(course, assignment) if assignment.order == 10
+      compile_iterator(course, assignment) if assignment.order == 11
       compile_functionality(course, assignment) unless (assignment.order == 9 || assignment.order == 10)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
@@ -44,6 +45,14 @@ class Student < ActiveRecord::Base
   def check_if_homework_committed(course, assignment)
     files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' }.map { |file| File.extname(file) }.uniq rescue []
     (files.include? '.pdf') ? self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: true) : self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: false)
+  end
+
+  def compile_iterator(course, assignment)
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.java"
+
+    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.class"
+    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.java"
   end
 
   def compile_typesystem(course, assignment)
@@ -212,15 +221,15 @@ class Student < ActiveRecord::Base
   end
 
   def homework_admission_completed?
-    (self.student_to_assignments.pluck(:achieved_points).select{|element| element >= 1}.inject(:+) / 20.0) >= 0.66 rescue false
+    (self.student_to_assignments.pluck(:achieved_points).select { |element| element >= 1 }.inject(:+) / 20.0) >= 0.66 rescue false
   end
 
   def homework_admission_completed_two?
-    (self.student_to_assignments.pluck(:achieved_points).select{|element| element >= 2}.inject(:+) / 20.0) >= 0.33 rescue false
+    (self.student_to_assignments.pluck(:achieved_points).select { |element| element >= 2 }.inject(:+) / 20.0) >= 0.33 rescue false
   end
 
   def programming_admission_completed?
-    (self.student_to_assignments.pluck(:achieved_points_programming).select{|element| element >= 2}.inject(:+) / 30.0) >= 0.66 rescue false
+    (self.student_to_assignments.pluck(:achieved_points_programming).select { |element| element >= 2 }.inject(:+) / 30.0) >= 0.66 rescue false
   end
 
 end
