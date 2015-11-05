@@ -18,14 +18,7 @@ class Student < ActiveRecord::Base
     assignment_for_student = self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id)
     if assignment_for_student.processing_status == StudentToAssignment::NOT_STARTED
       check_if_committed(course, assignment)
-      compile_vector(course, assignment) if assignment.order == 4
-      compile_monoid(course, assignment) if assignment.order == 6
-      compile_cyclic_list(course, assignment) if assignment.order == 7
-      compile_bin_int_tree(course, assignment) if assignment.order == 8
-      compile_person(course, assignment) if assignment.order == 9
-      compile_typesystem(course, assignment) if assignment.order == 10
-      compile_iterator(course, assignment) if assignment.order == 11
-      compile_functionality(course, assignment) unless (assignment.order == 9 || assignment.order == 10)
+      compile_functionality(course, assignment)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
       assignment_for_student.update(processing_status: StudentToAssignment::DONE)
