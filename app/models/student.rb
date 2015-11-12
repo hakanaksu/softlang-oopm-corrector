@@ -18,6 +18,8 @@ class Student < ActiveRecord::Base
     assignment_for_student = self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id)
     if assignment_for_student.processing_status == StudentToAssignment::NOT_STARTED
       check_if_committed(course, assignment)
+      #hier weitere Java-Dateien compilieren
+      #zB compile_iterator(course,assignment) if assignment.order == '01'
       compile_functionality(course, assignment)
       compile_public_tests(course, assignment)
       compile_extra_tests(course, assignment)
@@ -27,6 +29,14 @@ class Student < ActiveRecord::Base
     end
   end
 
+  #def compile_iterator(course, assignment)
+  #  system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.class"
+  #  system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.java"
+  #
+  #  system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.class"
+  #  system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.java"
+  #end
+  
   def check_if_committed(course, assignment)
     files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' } rescue []
     if files.present?
@@ -38,132 +48,6 @@ class Student < ActiveRecord::Base
   def check_if_homework_committed(course, assignment)
     files = Dir.entries("#{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}").reject { |file| file == '.' || file == '..' }.map { |file| File.extname(file) }.uniq rescue []
     (files.include? '.pdf') ? self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: true) : self.student_to_assignments.find_by(student_id: self.id, assignment_id: assignment.id).update(homework_commited: false)
-  end
-
-  def compile_iterator(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNodeIterator.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeNode.java"
-  end
-
-  def compile_typesystem(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Attribute.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Attribute.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Boolean.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Boolean.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CharArray.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CharArray.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Class.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Class.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Default.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Default.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Integer.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Integer.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Interface.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Interface.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Javafile.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Javafile.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Method.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Method.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Private.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Private.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Protected.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Protected.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Public.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Public.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Type.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Type.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Typeable.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Typeable.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Visibility.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Visibility.java"
-
-  end
-
-  def compile_person(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Angestellter.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Angestellter.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.java"
-
-    # ===
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Angestellter.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Angestellter.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/GeschaeftsKunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/srcGeschaeftsKunde.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Kunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Kunde.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Manager.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Manager.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Person.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/Person.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/PrivatKunde.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/PrivatKunde.java"
-  end
-
-  def compile_bin_int_tree(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeException.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/TreeException.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/TreeException.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/TreeException.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/BinIntTree.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/src/BinIntTree.java"
-  end
-
-  def compile_cyclic_list(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleListElement.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleListElement.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleList.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/CycleList.java"
-  end
-
-  def compile_monoid(course, assignment)
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Monoid.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/Monoid.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/MultMonoid.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/MultMonoid.java"
-
-    system "rm #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/SumMonoid.class"
-    system "javac -encoding UTF-8 #{Rails.root}/repos/#{course.id}/#{self.username}/solutions/#{assignment.order}/SumMonoid.java"
   end
 
   def compile_vector(course, assignment)
